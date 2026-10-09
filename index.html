@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A place to read, annotate, and revisit your presentations.">
+  <meta name="theme-color" content="#f6f8fc">
+  <title>Presentations</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to presentations</a>
+  <div id="library">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./" aria-label="Presentation library home"><img src="./assets/favicon.svg" width="36" height="36" alt=""><span data-site-title>Presentations</span><span class="brand-divider"></span><span class="brand-caption">The library</span></a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch color theme"><svg class="icon"><use href="./assets/icons.svg#moon"></use></svg></button>
+      </div>
+    </header>
+    <main class="library-main" id="main">
+      <div class="library-heading">
+        <div><p class="eyebrow">YOUR READING SPACE</p><h1>The presentation shelf<span class="title-dot">.</span></h1><p class="intro" id="site-description">A place to read, annotate, and revisit your presentations.</p></div>
+        <div class="library-total" id="library-total"><span id="total-count">—</span><span>presentations</span></div>
+      </div>
+      <div class="library-controls">
+        <label class="search-field"><svg class="icon"><use href="./assets/icons.svg#search"></use></svg><span class="sr-only">Search presentations</span><input type="search" id="search" placeholder="Find a presentation…" autocomplete="off"><kbd>/</kbd></label>
+        <label class="sort-field"><span>Sort by</span><select id="sort"><option value="newest">Recently updated</option><option value="name">Name, A–Z</option><option value="oldest">Oldest first</option></select></label>
+      </div>
+      <div class="shelf-heading"><div class="folder-filters" id="folder-filters" aria-label="Filter by folder"></div><p class="result-count" id="result-count" role="status" aria-live="polite">Loading your library…</p></div>
+      <div id="presentation-grid" class="presentation-grid" aria-label="Presentations"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-icon"><svg><use href="./assets/icons.svg#book"></use></svg></div>
+        <h2 id="empty-title">Your shelf is ready.</h2>
+        <p id="empty-message">Add PDF files to the presentations folder in your repository. They’ll appear here after the next deployment.</p>
+        <code id="empty-path">presentations/</code>
+        <button class="button secondary" id="clear-search" type="button" hidden>Clear filters</button>
+      </div>
+      <div class="library-error" id="library-error" role="alert" hidden><svg class="icon"><use href="./assets/icons.svg#alert"></use></svg><div><h2>The library couldn’t load.</h2><p id="library-error-message"></p><button class="button secondary" id="retry-library" type="button">Try again</button></div></div>
+    </main>
+    <footer class="site-footer"><div><svg class="icon"><use href="./assets/icons.svg#pen"></use></svg><span>Your annotations stay in this browser.</span></div><span>One shelf. Every presentation.</span></footer>
+  </div>
+
+  <section class="reader" id="reader" aria-label="Presentation reader" hidden>
+    <header class="reader-header">
+      <button class="button back-button" id="back-library" type="button"><svg class="icon"><use href="./assets/icons.svg#chevron-left"></use></svg><span>Library</span></button>
+      <div class="reader-heading"><h1 id="reader-title" dir="auto">Presentation</h1><p id="reader-folder" dir="auto">PDF presentation</p></div>
+      <div class="reader-header-actions">
+        <a class="icon-button" id="download-original" download title="Download original PDF" aria-label="Download original PDF"><svg class="icon"><use href="./assets/icons.svg#download"></use></svg></a>
+        <button class="icon-button" id="toggle-notes" type="button" title="Slide notes" aria-label="Toggle slide notes" aria-expanded="true" aria-controls="notes-panel"><svg class="icon"><use href="./assets/icons.svg#notes"></use></svg></button>
+        <button class="icon-button" id="fullscreen" type="button" title="Full screen" aria-label="Toggle full screen"><svg class="icon"><use href="./assets/icons.svg#fullscreen"></use></svg></button>
+      </div>
+    </header>
+    <div class="reader-toolbar" id="reader-toolbar">
+      <div class="tool-group annotation-tools" role="group" aria-label="Annotation tools">
+        <button class="icon-button active" type="button" data-tool="read" aria-label="Read and select text" aria-pressed="true" title="Read (V)"><svg class="icon"><use href="./assets/icons.svg#pointer"></use></svg></button>
+        <button class="icon-button" type="button" data-tool="pen" aria-label="Pen" aria-pressed="false" title="Pen (P)"><svg class="icon"><use href="./assets/icons.svg#pen"></use></svg></button>
+        <button class="icon-button" type="button" data-tool="highlight" aria-label="Highlighter" aria-pressed="false" title="Highlighter (H)"><svg class="icon"><use href="./assets/icons.svg#highlight"></use></svg></button>
+        <button class="icon-button" type="button" data-tool="eraser" aria-label="Erase a mark" aria-pressed="false" title="Eraser (E)"><svg class="icon"><use href="./assets/icons.svg#eraser"></use></svg></button>
+        <span class="tool-separator"></span>
+        <label class="color-control" title="Annotation color"><span class="sr-only">Annotation color</span><input id="annotation-color" type="color" value="#3267df"></label>
+        <label class="width-control"><span class="sr-only">Line width</span><select id="line-width" aria-label="Line width"><option value="2">Thin</option><option value="4" selected>Medium</option><option value="7">Thick</option></select></label>
+        <span class="tool-separator"></span>
+        <button class="icon-button" id="undo" type="button" aria-label="Undo mark" title="Undo (Ctrl+Z)" disabled><svg class="icon"><use href="./assets/icons.svg#undo"></use></svg></button>
+        <button class="icon-button" id="redo" type="button" aria-label="Redo mark" title="Redo (Ctrl+Shift+Z)" disabled><svg class="icon"><use href="./assets/icons.svg#redo"></use></svg></button>
+      </div>
+      <div class="tool-group zoom-tools" role="group" aria-label="Zoom controls">
+        <button class="icon-button" id="zoom-out" type="button" aria-label="Zoom out"><svg class="icon"><use href="./assets/icons.svg#minus"></use></svg></button>
+        <span class="zoom-label" id="zoom-label">Fit</span>
+        <button class="icon-button" id="zoom-in" type="button" aria-label="Zoom in"><svg class="icon"><use href="./assets/icons.svg#plus"></use></svg></button>
+        <button class="icon-button" id="fit-page" type="button" aria-label="Fit slide to screen" title="Fit slide to screen"><svg class="icon"><use href="./assets/icons.svg#fit"></use></svg></button>
+      </div>
+    </div>
+    <div class="reader-body">
+      <div class="page-area" id="page-area" tabindex="0" aria-label="PDF slide">
+        <div class="reader-loading" id="reader-loading" role="status"><span class="spinner"></span><p>Opening presentation…</p></div>
+        <div class="reader-error" id="reader-error" role="alert" hidden><svg class="large-icon"><use href="./assets/icons.svg#alert"></use></svg><h2>This presentation couldn’t open.</h2><p id="reader-error-message"></p><a class="button secondary" id="open-original" target="_blank" rel="noopener">Open original PDF</a></div>
+        <div class="page-frame" id="page-frame" hidden><canvas id="pdf-canvas" aria-label="Current PDF slide"></canvas><div class="textLayer" id="text-layer"></div><canvas id="annotation-canvas" aria-label="Draw annotations on the current slide"></canvas></div>
+      </div>
+      <aside class="notes-panel" id="notes-panel" aria-label="Slide notes">
+        <div class="notes-heading"><svg class="icon"><use href="./assets/icons.svg#notes"></use></svg><h2>Slide notes</h2><button class="icon-button" id="close-notes" type="button" aria-label="Close slide notes"><svg class="icon"><use href="./assets/icons.svg#close"></use></svg></button></div>
+        <p class="note-slide-label" id="note-slide-label">SLIDE 01</p>
+        <label class="sr-only" for="slide-notes">Notes for this slide</label>
+        <textarea id="slide-notes" dir="auto" maxlength="50000" placeholder="Capture a thought, a question, or something to remember…" disabled></textarea>
+        <p class="save-status" id="save-status" role="status"><svg class="icon"><use href="./assets/icons.svg#check"></use></svg><span id="save-status-text">Saved in this browser</span></p>
+        <div class="notes-actions"><button class="button primary" id="export-pdf" type="button" disabled><svg class="icon"><use href="./assets/icons.svg#download"></use></svg>Save marked PDF</button><button class="button secondary" id="export-notes" type="button" disabled>Download notes</button><p>Marked PDFs include your pen and highlights. Written notes download separately.</p></div>
+      </aside>
+    </div>
+    <footer class="reader-footer">
+      <span class="reader-hint" id="reader-hint">Select text or choose a tool to annotate.</span>
+      <div class="page-navigation" role="group" aria-label="Slide navigation"><button class="icon-button" id="previous-page" type="button" aria-label="Previous slide" disabled><svg class="icon"><use href="./assets/icons.svg#chevron-left"></use></svg></button><label><span class="sr-only">Slide number</span><input id="page-number" type="number" min="1" value="1" aria-label="Slide number" disabled></label><span class="page-divider">/</span><span id="page-count">—</span><button class="icon-button" id="next-page" type="button" aria-label="Next slide" disabled><svg class="icon"><use href="./assets/icons.svg#chevron-right"></use></svg></button></div>
+      <span class="reader-shortcut">← → to navigate</span>
+    </footer>
+  </section>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">Enable JavaScript to browse presentations and use the PDF reader.</p></noscript>
+</body>
+</html>
